@@ -1,0 +1,48 @@
+FROM registry/docker/ubuntu:22.04
+
+ARG DOTNET_VERSION=aspnetcore-runtime-6.0
+ENV SSH_PASS=
+ENV DOTNET_COMMAND=""
+
+COPY ./image-internals /tmp
+
+RUN : \
+    #Copy start.sh
+    && mv ./tmp/start.sh /start.sh \
+    #making start.sh runnable
+    && chmod +x /start.sh \
+    #copy vsdbg
+    && mv /tmp/vsdbg /remote_debugger \
+    #give permissions
+    && chmod -R 777 /remote_debugger \
+    #update source list
+    && mv /tmp/sources.list /etc/apt/sources.list \
+    && rm -rf ./image-internals \
+    #update the package lists for upgrades
+    && apt-get update \
+    #Installing dotnet and ssh daemon server
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        --no-install-recommends \
+        $DOTNET_VERSION \
+        openssh-server \
+    #Clean up the apt cache to reduce image size
+    && apt-get clean \
+    && rm -rf \
+        /var/lib/apt/lists/* \
+        /etc/apt/sources.list \
+        /usr/share/doc \
+        /usr/share/man \
+        /usr/share/info \
+    #Ensure SSH directory for run exists
+    && mkdir /var/run/sshd \
+    #Allow root login over SSH
+    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \ 
+    #Enable password authentication for ssh
+    && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config \ 
+    && :
+#Expose the SSH port
+EXPOSE 22
+
+WORKDIR /app
+
+ENTRYPOINT ["/start.sh"]

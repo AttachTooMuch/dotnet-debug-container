@@ -55,6 +55,9 @@ coverage/
 package-lock.json
 yarn.lock
 
+# Ignore .NET debug container folder
+/dotnet-debug-container/vsdbg/
+
 # Allow specific files
 !*.sh
 !Dockerfile
