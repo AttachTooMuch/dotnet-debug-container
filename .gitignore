@@ -1,52 +1,62 @@
-# Prerequisites
-*.d
+# Ignore all log files and temp files
+*.log
+*.tmp
+*.bak
 
-# Object files
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore node_modules and other dependency directories
+node_modules/
+vendor/
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+
+# Ignore compiled binaries
 *.o
-*.ko
-*.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
 *.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+*.class
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+# Ignore build directories
+build/
+dist/
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# Ignore sensitive files (adjust according to your use case)
+.env
+*.env
+
+# Ignore IDE and editor config files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.sublime-project
+*.sublime-workspace
+
+# Ignore docker related files that might contain sensitive data
+docker-compose.override.yml
+docker-compose.override.yaml
+
+# Ignore all executables
+*.exe
+*.dll
+
+# Ignore coverage reports
+coverage/
+*.cover
+*.lcov
+*.lcov-report
+
+# Ignore lock files
+package-lock.json
+yarn.lock
+
+# Allow specific files
+!*.sh
+!Dockerfile
+!docker-compose.yml
+!docker-compose.yaml
