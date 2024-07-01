@@ -19,6 +19,9 @@ jobs:
       - name: run('ls -la')
         run: ls -la
 
+      - name: run('echo $GITHUB_ENV')
+        run: echo $GITHUB_ENV
+
       # - name: Build the Docker image
       #   run: docker build . --file ./debug-container/Dockerfile.base.ubuntu.22.04.amd64 --tag aspnet6-debug-ubuntu-amd64:master_$(date +%s)
 
