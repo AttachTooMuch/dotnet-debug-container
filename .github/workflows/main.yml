@@ -12,6 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: List files
+        run: ls -R
+
       - name: Build the Docker image
-        run: pwd
         run: docker build . --file ../../debug-container/Dockerfile.base.ubuntu.22.04.amd64 --tag aspnet6-debug-ubuntu-amd64:master_$(date +%s)
