@@ -5,7 +5,7 @@ ENV SSH_PASS=
 ENV DOTNET_COMMAND=""
 
 COPY ./vsdbg /remote_debugger
-COPY ./image-internals/start.sh /start.sh
+COPY ./start.sh /start.sh
 
 RUN : \
     #making start.sh runnable
