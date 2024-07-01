@@ -16,8 +16,8 @@ jobs:
       - name: run('pwd')
         run: pwd
 
-      - name: run('ls -la /')
-        run: ls -la /
+      - name: run('ls -la')
+        run: ls -la
 
       - name: Install vsdbg
         run: |
