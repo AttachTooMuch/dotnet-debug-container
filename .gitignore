@@ -56,7 +56,7 @@ package-lock.json
 yarn.lock
 
 # Ignore .NET debug container folder
-/dotnet-debug-container/vsdbg/
+/dotnet-debug-container/image-internals/vsdbg/
 
 # Allow specific files
 !*.sh

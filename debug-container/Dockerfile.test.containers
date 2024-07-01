@@ -1,0 +1,29 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine as build
+
+WORKDIR /app
+
+FROM testcontainers/sshd:latest
+
+RUN : \
+    && apk update \
+    # && apk --ad --no-cache aspnet-runtime-6.0 \
+    && :
+
+RUN : \
+    # Allow root login over SSH
+    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    # Enable password authentication for SSH
+    && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config \
+    && :
+
+#Expose the SSH port
+EXPOSE 22
+
+COPY --from=build /lib /lib
+
+COPY --from=build /usr /usr
+
+# COPY --from=build /usr/lib /usr/lib
+# COPY --from=build /usr/bin/dotnet /usr/bin/dotnet
+
+ENTRYPOINT ["/usr/sbin/sshd", "-D"]

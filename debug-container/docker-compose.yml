@@ -1,13 +1,14 @@
 version: '3.8'
 services:
   docker-debug-poc:
-    image: registry/infras-c4i-comint-backend-docker-prod/aspnet7-debug-ubuntu-amd64:1.5.1
+    image: aspnet6-debug-ubuntu-amd64:dev
+    # image: aspnet6-debug-alpine-amd64:dev  
     container_name: docker-debug-poc
     restart: always
     environment:
       - SSH_PASS=1234 #password for sshing into the container (which is mandatory for remote-debugging)
-      - DOTNET_COMMAND=dotnet /app/DockerDebugPOC.dll #your dotnet command to run (please use it with absolute paths)
+      - DOTNET_COMMAND=dotnet /app/my-first-debuggable-dotnet.dll #your dotnet command to run (please use it with absolute paths)
     volumes:
-      - /path/to/binaries:/app #output volume for updating binaries
+      - d:\\publish\\my-first-debuggable-dotnet:/app #output volume for updating binaries
     ports:
       - '22222:22' # you must expose an ssh port, it is advised to not use 22 (the docker host machine default ssh port )

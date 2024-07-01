@@ -1,0 +1,32 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine
+
+ENV SSH_PASS=
+ENV DOTNET_COMMAND=""
+
+COPY ./image-internals/vsdbg /remote_debugger
+COPY ./image-internals/start.sh /start.sh
+
+RUN : \
+    # Making start.sh runnable
+    && chmod +x /start.sh \
+    # Give permissions
+    && chmod +x /remote_debugger/vsdbg \
+    # Ensure SSH directory for run exists
+    && mkdir /var/run/sshd \
+    # Install SSH server
+    && apk update \
+    && apk add --no-cache openssh \
+    && apk add --no-cache bash \
+    # Allow root login over SSH
+    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    # Enable password authentication for SSH
+    && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config \
+    && ssh-keygen -A \
+    && :
+
+#Expose the SSH port
+EXPOSE 22
+
+WORKDIR /app
+
+ENTRYPOINT ["/start.sh"]
