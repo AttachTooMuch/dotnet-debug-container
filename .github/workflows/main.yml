@@ -55,6 +55,7 @@ jobs:
 
       - name: ls and pwd
         run: |
+          cd ./debug-container
           pwd &&
           ls -la
 
