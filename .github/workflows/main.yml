@@ -53,26 +53,11 @@ jobs:
 
       - name: Download and Extract vsdbg
         run: |
-          mkdir -p ${{ env.DOWNLOAD_DIR }} &&
-          curl -sSL -o ${{ env.DOWNLOAD_DIR }}/vsdbg.tar.gz https://vsdebugger.azureedge.net/vsdbg-17-11-10506-2/vsdbg-linux-x64.tar.gz &&
-          tar -xzf ${{ env.DOWNLOAD_DIR }}/vsdbg.tar.gz -C ${{ env.DOWNLOAD_DIR }} &&
-          ls -l ${{ env.DOWNLOAD_DIR }}
+          curl -sSL -o ${{ env.DOWNLOAD_DIR }}/vsdbg.tar.gz https://vsdebugger.azureedge.net/vsdbg-17-11-10506-2/vsdbg-linux-x64.tar.gz 
+          && tar -xzf ${{ env.DOWNLOAD_DIR }}/vsdbg.tar.gz -C ${{ env.INSTALL_DIR }} 
+          && ls -l ${{ env.INSTALL_DIR }}
 
       # - name: create dir for vsdbg
       #   run: mkdir -p $GITHUB_WORKSPACE/vsdbg
       # - name: Build the Docker image
       #   run: docker build . --file ./debug-container/Dockerfile.base.ubuntu.22.04.amd64 --tag aspnet6-debug-ubuntu-amd64:master_$(date +%s)
-
-      - name: Install vsdbg
-        run: |
-          INSTALL_DIR=$GITHUB_WORKSPACE/vsdbg
-          sudo mkdir -p ${INSTALL_DIR}
-          RETRIES=5
-          DOWNLOAD_URL="https://aka.ms/getvsdbgsh"
-          for i in $(seq 1 $RETRIES); do
-            sudo curl -sSL $DOWNLOAD_URL | bash /dev/stdin -v latest -l ${INSTALL_DIR} && break || sleep 15
-            if [ $i -eq $RETRIES ]; then
-              echo "ERROR: Failed to download vsdbg after $RETRIES attempts"
-              exit 1
-            fi
-          done
