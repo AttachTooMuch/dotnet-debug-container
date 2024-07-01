@@ -10,6 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write # This gives read and write access to repository contents
+      actions: read # This gives read access to actions and artifacts
+      packages: write # This gives read and write access to packages
+
     steps:
       - uses: actions/checkout@v4
 
