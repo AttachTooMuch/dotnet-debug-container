@@ -42,7 +42,7 @@ jobs:
           echo "Base Ref: $GITHUB_BASE_REF"
 
       - name: create dir for vsdbg
-        run: mkdir -p $Workspace/vsdbg
+        run: mkdir -p $GITHUB_WORKSPACE/vsdbg
       # - name: Build the Docker image
       #   run: docker build . --file ./debug-container/Dockerfile.base.ubuntu.22.04.amd64 --tag aspnet6-debug-ubuntu-amd64:master_$(date +%s)
 
