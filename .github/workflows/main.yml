@@ -43,8 +43,13 @@ jobs:
 
       - name: Set up environment
         run: |
-          echo "INSTALL_DIR=$GITHUB_WORKSPACE/vsdbg" >> $GITHUB_ENV &&
-          echo "DOWNLOAD_DIR=$GITHUB_WORKSPACE/downloads" >> $GITHUB_ENV &&
+          echo "INSTALL_DIR=${GITHUB_WORKSPACE}/vsdbg" >> $GITHUB_ENV
+          echo "DOWNLOAD_DIR=${GITHUB_WORKSPACE}/downloads" >> $GITHUB_ENV
+
+      - name: Create directories
+        run: |
+          mkdir -p ${{ env.INSTALL_DIR }}
+          mkdir -p ${{ env.DOWNLOAD_DIR }}
 
       - name: Download and Extract vsdbg
         run: |
