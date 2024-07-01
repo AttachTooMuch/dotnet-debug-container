@@ -14,7 +14,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: List files
-        run: ls -R
+        run: ls -la /
+
+      - name: Install vsdbg
+        run: |
+          INSTALL_DIR=/vsdbg
+          mkdir -p ${INSTALL_DIR}
+          curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l ${INSTALL_DIR}
 
       - name: Build the Docker image
         run: docker build . --file ./debug-container/Dockerfile.base.ubuntu.22.04.amd64 --tag aspnet6-debug-ubuntu-amd64:master_$(date +%s)
