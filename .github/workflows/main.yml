@@ -53,7 +53,10 @@ jobs:
           tar -xzf ${{ env.DOWNLOAD_DIR }}/vsdbg.tar.gz -C ${{ env.INSTALL_DIR }} &&
           ls -l ${{ env.INSTALL_DIR }}
 
-      # - name: create dir for vsdbg
-      #   run: mkdir -p $GITHUB_WORKSPACE/vsdbg
-      # - name: Build the Docker image
-      #   run: docker build . --file ./debug-container/Dockerfile.base.ubuntu.22.04.amd64 --tag aspnet6-debug-ubuntu-amd64:master_$(date +%s)
+      - name: ls and pwd
+        run: |
+          pwd &&
+          ls -la &&
+
+      - name: Build the Docker image
+        run: docker build . --file ./debug-container/Dockerfile.base.ubuntu.22.04.amd64 --tag aspnet6-debug-ubuntu-amd64:master_$(date +%s)
