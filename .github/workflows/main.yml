@@ -55,9 +55,10 @@ jobs:
 
       - name: ls and pwd
         run: |
-          cd ./debug-container
+          cd ./debug-container &&
           pwd &&
           ls -la
 
       - name: Build the Docker image
-        run: docker build . --file ./debug-container/Dockerfile.base.ubuntu.22.04.amd64 --tag aspnet6-debug-ubuntu-amd64:master_$GITHUB_RUN_ID
+        run: cd ./debug-container &&
+          docker build . --file ./Dockerfile.base.ubuntu.22.04.amd64 --tag aspnet6-debug-ubuntu-amd64:master_$GITHUB_RUN_ID
