@@ -13,13 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: List files
+      - name: run('pwd')
+        run: pwd
+
+      - name: run('ls -la /')
         run: ls -la /
 
       - name: Install vsdbg
         run: |
           INSTALL_DIR=/vsdbg
-          mkdir -p ${INSTALL_DIR}
+          sudo mkdir -p ${INSTALL_DIR}
           curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l ${INSTALL_DIR}
 
       - name: Build the Docker image
