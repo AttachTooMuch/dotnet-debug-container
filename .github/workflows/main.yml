@@ -20,7 +20,7 @@ jobs:
 
       - name: Set up environment
         run: |
-          echo "INSTALL_DIR=${GITHUB_WORKSPACE}/vsdbg" >> $GITHUB_ENV
+          echo "INSTALL_DIR=${GITHUB_WORKSPACE}/debug-container/vsdbg" >> $GITHUB_ENV
           echo "DOWNLOAD_DIR=${GITHUB_WORKSPACE}/downloads" >> $GITHUB_ENV
 
       - name: Print GitHub environment variables

@@ -4,7 +4,7 @@ ARG DOTNET_VERSION=aspnetcore-runtime-6.0
 ENV SSH_PASS=
 ENV DOTNET_COMMAND=""
 
-COPY ./image-internals/vsdbg /remote_debugger
+COPY ./vsdbg /remote_debugger
 COPY ./image-internals/start.sh /start.sh
 
 RUN : \
