@@ -25,11 +25,11 @@ jobs:
       - name: Install vsdbg
         run: |
           INSTALL_DIR=/vsdbg
-          mkdir -p ${INSTALL_DIR}
+          sudo mkdir -p ${INSTALL_DIR}
           RETRIES=5
           DOWNLOAD_URL="https://aka.ms/getvsdbgsh"
           for i in $(seq 1 $RETRIES); do
-            curl -sSL $DOWNLOAD_URL | bash /dev/stdin -v latest -l ${INSTALL_DIR} && break || sleep 15
+            sudo curl -sSL $DOWNLOAD_URL | bash /dev/stdin -v latest -l ${INSTALL_DIR} && break || sleep 15
             if [ $i -eq $RETRIES ]; then
               echo "ERROR: Failed to download vsdbg after $RETRIES attempts"
               exit 1
