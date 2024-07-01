@@ -18,12 +18,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: run('pwd')
-        run: pwd
-
-      - name: run('ls -la')
-        run: ls -la
-
       - name: Set up environment
         run: |
           echo "INSTALL_DIR=${GITHUB_WORKSPACE}/vsdbg" >> $GITHUB_ENV
@@ -31,8 +25,8 @@ jobs:
 
       - name: Print GitHub environment variables
         run: |
-          echo "INSTALL_DIR": env.INSTALL_DIR
-          echo "DOWNLOAD_DIR": env.DOWNLOAD_DIR
+          echo "INSTALL_DIR": ${{ env.INSTALL_DIR }}
+          echo "DOWNLOAD_DIR": ${{ env.DOWNLOAD_DIR }}
           echo "Workflow: $GITHUB_WORKFLOW"
           echo "Run ID: $GITHUB_RUN_ID"
           echo "Run Number: $GITHUB_RUN_NUMBER"
