@@ -20,15 +20,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Determine tag name
+        id: extract_tag
+        run: |
+          TAG_NAME=$(echo "${GITHUB_REF}" | sed 's/refs\/tags\///')
+          echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
+
       - name: Determine branch or tag name
         id: vars
         run: |
-          echo "GITHUB_REF=${GITHUB_REF}"  # Debug: Print the GITHUB_REF
           if [[ "${GITHUB_REF}" == refs/heads/* ]]; then
             BRANCH_NAME="${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
             echo "IS_TAG=false" >> $GITHUB_ENV
           else
-            TAG_NAME="${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
             echo "IS_TAG=true" >> $GITHUB_ENV
           fi
 
