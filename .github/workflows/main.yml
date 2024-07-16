@@ -42,8 +42,7 @@ jobs:
         run: |
           echo "INSTALL_DIR": ${{ env.INSTALL_DIR }}
           echo "DOWNLOAD_DIR": ${{ env.DOWNLOAD_DIR }}
-          echo "Branch": ${{ env.BRANCH_NAME }}
-          echo "Tag": ${{ env.TAG_NAME }}
+          echo "TagOrBranch": ${{ env.TAG_OR_BRANCH_NAME }}
           echo "Is Tag": ${{ env.IS_TAG }}
           echo "Workflow: $GITHUB_WORKFLOW"
           echo "Run ID: $GITHUB_RUN_ID"
