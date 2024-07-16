@@ -28,7 +28,7 @@ jobs:
             BRANCH_NAME="${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
             echo "IS_TAG=false" >> $GITHUB_ENV
           else
-            BRANCH_NAME="${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+            TAG_NAME="${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
             echo "IS_TAG=true" >> $GITHUB_ENV
           fi
 
@@ -42,6 +42,7 @@ jobs:
           echo "INSTALL_DIR": ${{ env.INSTALL_DIR }}
           echo "DOWNLOAD_DIR": ${{ env.DOWNLOAD_DIR }}
           echo "Branch": ${{ env.BRANCH_NAME }}
+          echo "Tag": ${{ env.TAG_NAME }}
           echo "Is Tag": ${{ env.IS_TAG }}
           echo "Workflow: $GITHUB_WORKFLOW"
           echo "Run ID: $GITHUB_RUN_ID"
