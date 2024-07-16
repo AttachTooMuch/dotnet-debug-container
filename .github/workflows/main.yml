@@ -27,17 +27,17 @@ jobs:
             TAG_OR_BRANCH_NAME=$(echo "${GITHUB_REF}" | sed 's/refs\/heads\///')
             IS_TAG="false"
             DOCKER_VERSION="${TAG_OR_BRANCH_NAME}_${GITHUB_RUN_NUMBER}"
+            DOCKER_REPO="${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev"
           else
             TAG_OR_BRANCH_NAME=$(echo "${GITHUB_REF}" | sed 's/refs\/tags\///')
             IS_TAG="true"
             DOCKER_VERSION="${TAG_OR_BRANCH_NAME}"
+            DOCKER_REPO="${{ secrets.DOCKER_USERNAME }}/debugcontainers"
           fi
           echo "TAG_OR_BRANCH_NAME=${TAG_OR_BRANCH_NAME}" >> $GITHUB_ENV
           echo "IS_TAG=${IS_TAG}" >> $GITHUB_ENV
           echo "DOCKER_VERSION=${DOCKER_VERSION}" >> $GITHUB_ENV
-
-      - name: Set up environment
-        run: |
+          echo "DOCKER_REPO=${DOCKER_REPO}" >> $GITHUB_ENV
           echo "INSTALL_DIR=${GITHUB_WORKSPACE}/debug-container/vsdbg" >> $GITHUB_ENV
           echo "DOWNLOAD_DIR=${GITHUB_WORKSPACE}/downloads" >> $GITHUB_ENV
 
@@ -46,6 +46,7 @@ jobs:
           echo "INSTALL_DIR": ${{ env.INSTALL_DIR }}
           echo "DOWNLOAD_DIR": ${{ env.DOWNLOAD_DIR }}
           echo "DockerVersion": ${{ env.DOCKER_VERSION }}
+          echo "DockerRepo": ${{ env.DOCKER_REPO }}
           echo "TagOrBranch": ${{ env.TAG_OR_BRANCH_NAME }}
           echo "Is Tag": ${{ env.IS_TAG }}
           echo "Workflow: $GITHUB_WORKFLOW"
