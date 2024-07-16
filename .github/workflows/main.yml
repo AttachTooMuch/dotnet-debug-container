@@ -30,9 +30,10 @@ jobs:
         id: vars
         run: |
           if [[ "${GITHUB_REF}" == refs/heads/* ]]; then
-            BRANCH_NAME="${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+            BRANCH_NAME=$(echo "${GITHUB_REF}" | sed 's/refs\/heads\///')
             echo "IS_TAG=false" >> $GITHUB_ENV
           else
+            TAG_NAME=$(echo "${GITHUB_REF}" | sed 's/refs\/tags\///')
             echo "IS_TAG=true" >> $GITHUB_ENV
           fi
 
