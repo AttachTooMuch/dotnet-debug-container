@@ -60,10 +60,20 @@ jobs:
           ls -la
 
       - name: Build the Docker image
-        run: cd ./debug-container &&
-          docker build --build-arg DOTNET_VERSION=aspnetcore-runtime-6.0 --file ./Dockerfile.base.ubuntu.22.04.amd64 --tag aspnet6-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER . &&
-          docker build --build-arg DOTNET_VERSION=aspnetcore-runtime-7.0 --file ./Dockerfile.base.ubuntu.22.04.amd64 --tag aspnet7-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER . &&
-          docker build --build-arg DOTNET_VERSION=aspnetcore-runtime-8.0 --file ./Dockerfile.base.ubuntu.22.04.amd64 --tag aspnet8-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER .
+        run: |
+          cd ./debug-container &&
+          docker build \
+            --build-arg DOTNET_VERSION=aspnetcore-runtime-6.0 \
+            --file ./Dockerfile.base.ubuntu.22.04.amd64 \
+            --tag aspnet6-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER . &&
+          docker build \
+            --build-arg DOTNET_VERSION=aspnetcore-runtime-7.0 \
+            --file ./Dockerfile.base.ubuntu.22.04.amd64 \
+            --tag aspnet7-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER . &&
+          docker build \
+            --build-arg DOTNET_VERSION=aspnetcore-runtime-8.0 \
+            --file ./Dockerfile.base.ubuntu.22.04.amd64 \
+            --tag aspnet8-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER .
 
       - name: List images
         run: docker images
