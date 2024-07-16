@@ -5,6 +5,8 @@ on:
     branches: ["master"]
   pull_request:
     branches: ["master"]
+  create:
+    tags: ["*"] # This will run the workflow on tag creation
 
 jobs:
   build:
@@ -17,6 +19,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Determine branch or tag name
+        id: vars
+        run: |
+          if [[ "${GITHUB_REF}" == refs/heads/* ]]; then
+            echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+            echo "IS_TAG=false" >> $GITHUB_ENV
+          elif [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            echo "BRANCH_NAME=" >> $GITHUB_ENV
+            echo "IS_TAG=true" >> $GITHUB_ENV
+          fi
 
       - name: Set up environment
         run: |
@@ -84,22 +97,22 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Tag and push Docker image (development)
-        if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/pull/')
-        run: |
-          docker tag aspnet6-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER ${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev:aspnet6-develop_$GITHUB_RUN_NUMBER &&
-          docker tag aspnet7-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER ${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev:aspnet7-develop_$GITHUB_RUN_NUMBER &&
-          docker tag aspnet8-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER ${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev:aspnet8-develop_$GITHUB_RUN_NUMBER &&
-          docker push ${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev:aspnet6-develop_$GITHUB_RUN_NUMBER &&
-          docker push ${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev:aspnet7-develop_$GITHUB_RUN_NUMBER &&
-          docker push ${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev:aspnet8-develop_$GITHUB_RUN_NUMBER
+      # - name: Tag and push Docker image (development)
+      #   if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/pull/')
+      #   run: |
+      #     docker tag aspnet6-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER ${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev:aspnet6-$GITHUB_RUN_NUMBER &&
+      #     docker tag aspnet7-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER ${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev:aspnet7-$GITHUB_RUN_NUMBER &&
+      #     docker tag aspnet8-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER ${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev:aspnet8-$GITHUB_RUN_NUMBER &&
+      #     docker push ${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev:aspnet6-p_$GITHUB_RUN_NUMBER &&
+      #     docker push ${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev:aspnet7-p_$GITHUB_RUN_NUMBER &&
+      #     docker push ${{ secrets.DOCKER_USERNAME }}/debugcontainers-dev:aspnet8-p_$GITHUB_RUN_NUMBER
 
-      - name: Tag and push Docker image (production)
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          docker tag aspnet6-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER ${{ secrets.DOCKER_USERNAME }}/aspnet6-debug-ubuntu-amd64:latest &&
-          docker tag aspnet7-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER ${{ secrets.DOCKER_USERNAME }}/aspnet7-debug-ubuntu-amd64:latest &&
-          docker tag aspnet8-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER ${{ secrets.DOCKER_USERNAME }}/aspnet8-debug-ubuntu-amd64:latest &&
-          docker push ${{ secrets.DOCKER_USERNAME }}/aspnet6-debug-ubuntu-amd64:latest &&
-          docker push ${{ secrets.DOCKER_USERNAME }}/aspnet7-debug-ubuntu-amd64:latest &&
-          docker push ${{ secrets.DOCKER_USERNAME }}/aspnet8-debug-ubuntu-amd64:latest
+      # - name: Tag and push Docker image (production)
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   run: |
+      #     docker tag aspnet6-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER ${{ secrets.DOCKER_USERNAME }}/debugcontainers/aspnet6-debug-ubuntu-amd64:latest &&
+      #     docker tag aspnet7-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER ${{ secrets.DOCKER_USERNAME }}/debugcontainers/aspnet7-debug-ubuntu-amd64:latest &&
+      #     docker tag aspnet8-debug-ubuntu-amd64:master_$GITHUB_RUN_NUMBER ${{ secrets.DOCKER_USERNAME }}/debugcontainers/aspnet8-debug-ubuntu-amd64:latest &&
+      #     docker push ${{ secrets.DOCKER_USERNAME }}/debugcontainers/aspnet6-debug-ubuntu-amd64:latest &&
+      #     docker push ${{ secrets.DOCKER_USERNAME }}/debugcontainers/aspnet7-debug-ubuntu-amd64:latest &&
+      #     docker push ${{ secrets.DOCKER_USERNAME }}/debugcontainers/aspnet8-debug-ubuntu-amd64:latest
