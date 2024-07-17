@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   docker-debug-poc:
-    image: aspnet6-debug-ubuntu-amd64:dev
+    image: danielzake92/debugcontainers:ubuntu-22.04-amd64-aspnet6.0-latest
     # image: aspnet6-debug-alpine-amd64:dev  
     container_name: docker-debug-poc
     restart: always
