@@ -9,7 +9,7 @@ This project helps you to debug remote offline containers by attaching via SSH i
 ### 1. Run with docker cli:
 
 ```sh
-docker run -dt --name debugcontainer -p 22222:22 -v d:\\publish\\my-first-debuggable-dotnet:/app -e SSH_PASS=1234 -e "DOTNET_COMMAND=dotnet /app/my-first-debuggable-dotnet.dll" danielzake92/debugcontainers:ubuntu-22.04-amd64-aspnet6.0-latest
+docker run -dt --name debugcontainer -p 22222:22 -v d:\\publish\\my-first-debuggable-dotnet:/app -e SSH_PASS=1234 -e "DOTNET_COMMAND=dotnet /app/my-first-debuggable-dotnet.dll" attachtoomuch/debugcontainers:ubuntu-22.04-amd64-aspnet6.0-latest
 ```
 ### 2. Run with docker-compose:
 
@@ -17,7 +17,7 @@ docker run -dt --name debugcontainer -p 22222:22 -v d:\\publish\\my-first-debugg
 version: '3.8'
 services:
   docker-debug-poc:
-    image: danielzake92/debugcontainers:ubuntu-22.04-amd64-aspnet6.0-latest
+    image: attachtoomuch/debugcontainers:ubuntu-22.04-amd64-aspnet6.0-latest
     container_name: docker-debug-poc
     restart: always
     environment:
